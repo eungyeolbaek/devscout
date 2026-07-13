@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: devscout
+      POSTGRES_PASSWORD: devscout
+      POSTGRES_DB: devscout
+    ports:
+      - "5433:5432"
+    volumes:
+      - devscout_pg_data:/var/lib/postgresql/data
+
+volumes:
+  devscout_pg_data:

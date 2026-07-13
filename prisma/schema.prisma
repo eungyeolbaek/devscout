@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Site {
+  WANTED
+  JUMPIT
+  SARAMIN
+  JOBKOREA
+  RALLIT
+  ROCKETPUNCH
+  CATCH
+  JASOSEOL
+}
+
+model JobPosting {
+  id              String   @id @default(cuid())
+  site            Site
+  title           String
+  company         String
+  url             String   @unique
+  isNewGradHiring Boolean  @default(false)
+  postedAt        DateTime
+  collectedAt     DateTime @default(now())
+
+  @@index([site])
+}
+
+model CrawlFailure {
+  id         String   @id @default(cuid())
+  site       Site
+  message    String
+  occurredAt DateTime @default(now())
+}
