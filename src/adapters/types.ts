@@ -1,4 +1,4 @@
-import type { Site } from "@prisma/client";
+import type { Site } from '@prisma/client';
 
 export interface JobPosting {
   site: Site;

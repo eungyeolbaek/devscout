@@ -3,17 +3,17 @@
 
 export const searchConfig = {
   wanted: {
-    years: "0", // 신입
-    locations: "seoul.all", // 서울 전체
+    years: '0', // 신입
+    locations: 'seoul.all', // 서울 전체
   },
   jumpit: {
-    jobCategory: "1", // 서버/백엔드 개발자
-    career: "0", // 신입
-    locationTag: "101000", // 서울 전체
+    jobCategory: '1', // 서버/백엔드 개발자
+    career: '0', // 신입
+    locationTag: '101000', // 서울 전체
   },
   // 카테고리 파라미터가 없는 사이트(원티드 등)에서 제목 텍스트로 걸러낼 때 사용 (filter/keyword-filter.ts에서 참조 예정)
   keywords: {
-    include: ["백엔드", "서버", "Node.js", "NestJS"],
+    include: ['백엔드', '서버', 'Node.js', 'NestJS'],
     exclude: [] as string[],
   },
 } as const;

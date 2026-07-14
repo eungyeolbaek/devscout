@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: devscout
       POSTGRES_DB: devscout
     ports:
-      - "5433:5432"
+      - '5433:5432'
     volumes:
       - devscout_pg_data:/var/lib/postgresql/data
 

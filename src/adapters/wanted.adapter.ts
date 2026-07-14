@@ -1,6 +1,6 @@
-import { Site } from "@prisma/client";
-import type { JobPosting, SiteAdapter } from "./types.js";
-import { searchConfig } from "../config/search-config.js";
+import { Site } from '@prisma/client';
+import type { JobPosting, SiteAdapter } from './types.js';
+import { searchConfig } from '../config/search-config.js';
 
 // 원티드 API 원본 응답 형태 (원티드 쪽이 붙인 필드명 그대로, 우리 표준 이름이 아님)
 interface WantedJobsResponse {
@@ -12,8 +12,8 @@ interface WantedJobsResponse {
   }>;
 }
 
-const WANTED_JOBS_API = "https://www.wanted.co.kr/api/v4/jobs";
-const WANTED_JOB_DETAIL_URL = "https://www.wanted.co.kr/wd";
+const WANTED_JOBS_API = 'https://www.wanted.co.kr/api/v4/jobs';
+const WANTED_JOB_DETAIL_URL = 'https://www.wanted.co.kr/wd';
 
 function looksLikeNewGradHiring(title: string): boolean {
   return /공채/.test(title);
@@ -24,14 +24,14 @@ export const wantedAdapter: SiteAdapter = {
 
   async fetchJobs(): Promise<JobPosting[]> {
     const url = new URL(WANTED_JOBS_API);
-    url.searchParams.set("country", "kr");
-    url.searchParams.set("job_sort", "job.latest_order");
-    url.searchParams.set("years", searchConfig.wanted.years);
-    url.searchParams.set("locations", searchConfig.wanted.locations);
-    url.searchParams.set("limit", "100");
+    url.searchParams.set('country', 'kr');
+    url.searchParams.set('job_sort', 'job.latest_order');
+    url.searchParams.set('years', searchConfig.wanted.years);
+    url.searchParams.set('locations', searchConfig.wanted.locations);
+    url.searchParams.set('limit', '100');
 
     const res = await fetch(url, {
-      headers: { "User-Agent": "DevScout/0.1 (personal job alert bot)" },
+      headers: { 'User-Agent': 'DevScout/0.1 (personal job alert bot)' },
     });
 
     if (!res.ok) {
