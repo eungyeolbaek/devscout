@@ -1,5 +1,6 @@
 import { Site } from "@prisma/client";
 import type { JobPosting, SiteAdapter } from "./types.js";
+import { searchConfig } from "../config/search-config.js";
 
 // 점핏 API 원본 응답 형태 (점핏 쪽이 붙인 필드명 그대로, 우리 표준 이름이 아님)
 interface JumpitPositionsResponse {
@@ -16,13 +17,6 @@ interface JumpitPositionsResponse {
 const JUMPIT_POSITIONS_API = "https://jumpit-api.saramin.co.kr/api/positions";
 const JUMPIT_POSITION_DETAIL_URL = "https://jumpit.saramin.co.kr/position";
 
-const SEARCH_PARAMS = {
-  jobCategory: "1", // 서버/백엔드 개발자
-  career: "0", // 신입
-  locationTag: "101000", // 서울 전체
-  sort: "reg_dt",
-} as const;
-
 function looksLikeNewGradHiring(title: string): boolean {
   return /공채/.test(title);
 }
@@ -32,10 +26,10 @@ export const jumpitAdapter: SiteAdapter = {
 
   async fetchJobs(): Promise<JobPosting[]> {
     const url = new URL(JUMPIT_POSITIONS_API);
-    url.searchParams.set("jobCategory", SEARCH_PARAMS.jobCategory);
-    url.searchParams.set("career", SEARCH_PARAMS.career);
-    url.searchParams.set("locationTag", SEARCH_PARAMS.locationTag);
-    url.searchParams.set("sort", SEARCH_PARAMS.sort);
+    url.searchParams.set("jobCategory", searchConfig.jumpit.jobCategory);
+    url.searchParams.set("career", searchConfig.jumpit.career);
+    url.searchParams.set("locationTag", searchConfig.jumpit.locationTag);
+    url.searchParams.set("sort", "reg_dt");
     url.searchParams.set("page", "1");
 
     const res = await fetch(url, {
