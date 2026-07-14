@@ -1,0 +1,55 @@
+import { Site } from "@prisma/client";
+import type { JobPosting, SiteAdapter } from "./types.js";
+
+// 원티드 API 원본 응답 형태 (원티드 쪽이 붙인 필드명 그대로, 우리 표준 이름이 아님)
+interface WantedJobsResponse {
+  data: Array<{
+    id: number;
+    position: string; // 공고 제목 (원티드 API가 이렇게 부름 — "직무명"이라는 뜻으로 쓴 필드, 우리 쪽 title에 매핑됨)
+    company: { name: string };
+  }>;
+}
+
+const WANTED_JOBS_API = "https://www.wanted.co.kr/api/v4/jobs";
+const WANTED_JOB_DETAIL_URL = "https://www.wanted.co.kr/wd";
+
+const SEARCH_PARAMS = {
+  years: "0", // 신입
+  locations: "seoul.all", // 서울 전체
+} as const;
+
+function looksLikeNewGradHiring(title: string): boolean {
+  return /공채/.test(title);
+}
+
+export const wantedAdapter: SiteAdapter = {
+  site: Site.WANTED,
+
+  async fetchJobs(): Promise<JobPosting[]> {
+    const url = new URL(WANTED_JOBS_API);
+    url.searchParams.set("country", "kr");
+    url.searchParams.set("job_sort", "job.latest_order");
+    url.searchParams.set("years", SEARCH_PARAMS.years);
+    url.searchParams.set("locations", SEARCH_PARAMS.locations);
+    url.searchParams.set("limit", "100");
+
+    const res = await fetch(url, {
+      headers: { "User-Agent": "DevScout/0.1 (personal job alert bot)" },
+    });
+
+    if (!res.ok) {
+      throw new Error(`원티드 API 응답 오류: ${res.status}`);
+    }
+
+    const body = (await res.json()) as WantedJobsResponse;
+
+    return body.data.map((job) => ({
+      site: Site.WANTED,
+      title: job.position,
+      company: job.company.name,
+      url: `${WANTED_JOB_DETAIL_URL}/${job.id}`,
+      isNewGradHiring: looksLikeNewGradHiring(job.position),
+      postedAt: null,
+    }));
+  },
+};

@@ -15,6 +15,7 @@
 - 커밋 메시지는 한글로, 제목(머릿말) 한 줄만 준다. 본문(body)이나 Co-Authored-By 같은 트레일러는 붙이지 않는다.
 - 제목 앞에 conventional commit 타입 접두어를 반드시 붙인다 (예: `chore:`, `feat:`, `fix:`, `docs:`, `refactor:`). 접두어 없이 메시지만 주지 않는다.
 - 커밋 메시지는 항상 코드 블록(```)으로 감싸서 준다 — 복사 버튼이 바로 뜨도록. 본문에 텍스트로 풀어쓰지 않는다.
+- 하나의 작업 단위가 끝나서 커밋하기 좋은 지점이 되면, 사용자가 묻지 않아도 먼저 알려주고 커밋 메시지를 제안한다. "지금 커밋하는 게 좋겠다"는 판단이 서면 바로 알린다.
 
 ## 프로젝트 확정 스택 (요약, 상세는 기획서 참고)
 - pnpm, TypeScript, Playwright, Prisma + PostgreSQL(Docker Compose), Discord Webhook

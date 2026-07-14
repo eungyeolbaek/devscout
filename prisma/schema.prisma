@@ -25,7 +25,7 @@ model JobPosting {
   company         String
   url             String   @unique
   isNewGradHiring Boolean  @default(false)
-  postedAt        DateTime
+  postedAt        DateTime?
   collectedAt     DateTime @default(now())
 
   @@index([site])
