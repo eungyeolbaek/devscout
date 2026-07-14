@@ -5,6 +5,7 @@ export interface JobPosting {
   title: string;
   company: string;
   url: string;
+  location: string | null;
   isNewGradHiring: boolean;
   postedAt: Date | null;
   deadlineAt: Date | null;

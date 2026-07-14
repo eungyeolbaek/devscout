@@ -9,6 +9,7 @@ interface WantedJobsResponse {
     position: string; // 공고 제목 (원티드 API가 이렇게 부름 — "직무명"이라는 뜻으로 쓴 필드, 우리 쪽 title에 매핑됨)
     company: { name: string };
     due_time: string | null; // 마감일 (대부분 null — 원티드는 상시채용 위주)
+    address?: { location: string; district: string }; // location: 시/도, district: 구/시
   }>;
 }
 
@@ -45,6 +46,7 @@ export const wantedAdapter: SiteAdapter = {
       title: job.position,
       company: job.company.name,
       url: `${WANTED_JOB_DETAIL_URL}/${job.id}`,
+      location: job.address ? `${job.address.location} ${job.address.district}` : null,
       isNewGradHiring: looksLikeNewGradHiring(job.position),
       postedAt: null,
       deadlineAt: job.due_time ? new Date(job.due_time) : null,

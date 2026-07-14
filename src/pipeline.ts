@@ -4,6 +4,7 @@ import type { SiteAdapter } from './adapters/types.js';
 import { filterByKeyword } from './filter/keyword-filter.js';
 import { saveNewJobs } from './db/job-repository.js';
 import { runAdapter } from './crawler/run-adapter.js';
+import { notifyNewJobs } from './notify/discord.js';
 
 const adapters: SiteAdapter[] = [wantedAdapter, jumpitAdapter];
 
@@ -14,8 +15,7 @@ export async function runPipeline(): Promise<void> {
     const saved = await saveNewJobs(filtered);
 
     console.log(`[${adapter.site}] 원본 ${raw.length}건 → 필터 후 ${filtered.length}건 → 신규 저장 ${saved.length}건`);
-    for (const job of saved) {
-      console.log(`  - ${job.title} (${job.company}) ${job.url}`);
-    }
+
+    await notifyNewJobs(saved);
   }
 }

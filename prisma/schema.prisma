@@ -24,6 +24,7 @@ model JobPosting {
   title           String
   company         String
   url             String   @unique
+  location        String?
   isNewGradHiring Boolean  @default(false)
   postedAt        DateTime?
   deadlineAt      DateTime?

@@ -7,13 +7,13 @@ export const searchConfig = {
     locations: 'seoul.all', // 서울 전체
   },
   jumpit: {
-    jobCategory: '1', // 서버/백엔드 개발자
+    jobCategories: ['1', '3'] as string[], // 1: 서버/백엔드 개발자, 3: 웹풀스택 개발자 (API가 다중 카테고리 파라미터를 지원하지 않아 어댑터에서 카테고리별로 각각 호출 후 합침)
     career: '0', // 신입
     locationTag: '101000', // 서울 전체
   },
   // 카테고리 파라미터가 없는 사이트(원티드 등)에서 제목 텍스트로 걸러낼 때 사용 (filter/keyword-filter.ts에서 참조 예정)
   keywords: {
-    include: ['백엔드', '서버', 'Node.js', 'NestJS'],
+    include: ['백엔드', '서버', 'Node.js', 'node.js', 'NestJS', '노드', '웹'],
     exclude: [] as string[],
   },
 } as const;
