@@ -22,6 +22,8 @@
 
 ## 프로젝트 확정 스택 (요약, 상세는 기획서 참고)
 
-- pnpm, TypeScript, Playwright, Prisma + PostgreSQL(Docker Compose), Discord Webhook
+- pnpm, TypeScript, Playwright, Prisma, Discord Webhook
+- 원티드/점핏은 (비공식) JSON API를 fetch로 직접 호출 — Playwright 미사용 (기획서 7.6, 7.8 참고). 다만 앞으로 추가할 사이트(사람인/잡코리아/랠릿 등)가 API를 안 주면 그때는 Playwright를 쓸 수 있으니 의존성에서 빼지 않음 — 사이트마다 다를 수 있는 어댑터 내부 구현 디테일일 뿐
+- DB는 로컬 개발용과 프로덕션용이 분리됨: **로컬은 Docker Compose Postgres**(포트 5433), **프로덕션(GitHub Actions)은 Neon**(호스팅 Postgres) — 로컬 `.env`는 Docker를, GitHub Secrets는 Neon 연결 문자열을 가리킴 (기획서 7.12 참고). 이 둘을 혼동하지 말 것
 - 프론트엔드 없음, CLI 진입점(`pnpm crawl`) 하나로 전체 파이프라인 실행
-- GitHub Actions로 스케줄 실행 예정 (KST 00:10 / 09:00 / 18:00)
+- GitHub Actions로 스케줄 실행 중 (KST 00:10 / 09:00 / 18:00, `.github/workflows/crawl.yml`)
