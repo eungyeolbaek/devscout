@@ -7,6 +7,7 @@ export interface JobPosting {
   url: string;
   isNewGradHiring: boolean;
   postedAt: Date | null;
+  deadlineAt: Date | null;
 }
 
 export interface SiteAdapter {
