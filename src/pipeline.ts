@@ -3,12 +3,13 @@ import { jumpitAdapter } from './adapters/jumpit.adapter.js';
 import type { SiteAdapter } from './adapters/types.js';
 import { filterByKeyword } from './filter/keyword-filter.js';
 import { saveNewJobs } from './db/job-repository.js';
+import { runAdapter } from './crawler/run-adapter.js';
 
 const adapters: SiteAdapter[] = [wantedAdapter, jumpitAdapter];
 
 export async function runPipeline(): Promise<void> {
   for (const adapter of adapters) {
-    const raw = await adapter.fetchJobs();
+    const raw = await runAdapter(adapter);
     const filtered = filterByKeyword(raw);
     const saved = await saveNewJobs(filtered);
 
