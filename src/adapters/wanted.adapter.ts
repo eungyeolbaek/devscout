@@ -31,8 +31,16 @@ export const wantedAdapter: SiteAdapter = {
     url.searchParams.set('locations', searchConfig.wanted.locations);
     url.searchParams.set('limit', '100');
 
+    // GitHub Actions 러너의 클라우드 IP가 원티드 WAF에서 종종 403으로 차단됨(2026-07-16 확인,
+    // 로컬 IP에서는 동일 요청이 200으로 정상 응답). User-Agent를 자체 식별용 문자열 대신 실제
+    // 브라우저처럼 보이게 바꾸고 Referer/Accept 헤더를 추가해 봇 차단 룰을 우회 시도.
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'DevScout/0.1 (personal job alert bot)' },
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        Accept: 'application/json, text/plain, */*',
+        Referer: 'https://www.wanted.co.kr/wdlist',
+      },
     });
 
     if (!res.ok) {

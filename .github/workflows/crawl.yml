@@ -2,9 +2,9 @@ name: Crawl job postings
 
 on:
   schedule:
-    - cron: '10 15 * * *'
-    - cron: '0 0 * * *'
-    - cron: '0 9 * * *'
+    - cron: '13 15 * * *' # 00:13 KST
+    - cron: '7 0 * * *' # 09:07 KST
+    - cron: '22 9 * * *' # 18:22 KST
   workflow_dispatch:
 
 jobs:
